@@ -1,0 +1,42 @@
+version: "3.8 "
+
+services:
+  demo:
+    container_name: "demo_demo"
+    build:
+      context: .
+      dockerfile: demo/Dockerfile
+    command: python -m demo
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - "./src:/opt/src:ro"
+      - "./demo:/opt/demo:ro"
+    env_file:
+      - ".env"
+    depends_on:
+      - db
+
+  migrations:
+    container_name: "demo_migrations"
+    build:
+      context: .
+      dockerfile: migrations/Dockerfile
+    command: python -m migrations
+    volumes:
+      - ".:/opt:rw"
+    env_file:
+      - ".env"
+    depends_on:
+      - db
+
+  db:
+    container_name: "demo_db"
+    image: postgres:16-alpine3.19
+    hostname: "demo"
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: admin
