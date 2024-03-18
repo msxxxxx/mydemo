@@ -11,6 +11,30 @@ __all__ = [
 ]
 
 
+class CommentsDetail(BaseModel):
+    id: PositiveInt = Field(
+        default=...,
+        title="Comments ID",
+        examples=[42]
+    )
+    date_created: datetime = Field(
+        default=...,
+        title="Date of created comment"
+    )
+    text: str = Field(
+        default=...,
+        min_length=2,
+        max_length=128,
+        text="Add comment",
+        examples=["My first comment"]
+    )
+    case_id: PositiveInt = Field(
+        default=...,
+        title="Case ID",
+        examples=[42]
+    )
+
+
 class CasesCreateForm(BaseModel):
     title: str = Field(
         default=...,
@@ -41,30 +65,6 @@ class CasesCreateCommentForm(BaseModel):
         max_length=128,
         text="Add comment",
         examples=["My first comment"]
-    )
-
-
-class CommentsDetail(BaseModel):
-    id: PositiveInt = Field(
-        default=...,
-        title="Comments ID",
-        examples=[42]
-    )
-    date_created: datetime = Field(
-        default=...,
-        title="Date of created comment"
-    )
-    text: str = Field(
-        default=...,
-        min_length=2,
-        max_length=128,
-        text="Add comment",
-        examples=["My first comment"]
-    )
-    case_id: PositiveInt = Field(
-        default=...,
-        title="Case ID",
-        examples=[42]
     )
 
 

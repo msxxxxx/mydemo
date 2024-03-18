@@ -47,8 +47,8 @@ class Cases(Base):
         back_populates="case_related"
     )
 
-    def __str__(self) -> str:
-        return self.title
+    # def __str__(self) -> str:
+    #     return self.title
 
 class Comments(Base):
     # __table_args__ = (
@@ -69,7 +69,7 @@ class Comments(Base):
         ForeignKey(
             column="demo_cases.id"
         ),
-        primary_key=True,
+        # primary_key=True,
         index=True
     )
     case_related = relationship(
@@ -77,6 +77,6 @@ class Comments(Base):
         back_populates="case_comment"
     )
 
-    # def __str__(self) -> str:
-    #     return self.text
+    def __str__(self) -> str:
+        return self.text
 

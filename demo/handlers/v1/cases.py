@@ -62,7 +62,7 @@ async def case_detail(session: DBSession, pk: int = Path(default=..., ge=1)):
 
 @router.post(
     path="/cases",
-    response_model=CasesDetail,
+    response_model=CasesCreateForm,
     name="Case_demo_create"
 )
 async def cases_create(session: DBSession, data: CasesCreateForm):
@@ -79,7 +79,7 @@ async def cases_create(session: DBSession, data: CasesCreateForm):
     except IntegrityError:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Case {data.title} exist")
     else:
-        return CasesDetail.model_validate(obj=obj, from_attributes=True)
+        return CasesCreateForm.model_validate(obj=obj, from_attributes=True)
 
 
 @router.post(
@@ -107,6 +107,6 @@ async def cases_create_comment(
         await session.commit()
         await session.refresh(instance=obj)
     except IntegrityError:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Some Error")
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Case {pk} does not exist")
     else:
-        return CasesDetail.model_validate(obj=obj, from_attributes=True)
+        return CommentsDetail.model_validate(obj=obj, from_attributes=True)
