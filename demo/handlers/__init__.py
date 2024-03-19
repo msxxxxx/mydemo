@@ -1,7 +1,5 @@
 from fastapi import APIRouter
 from fastapi.responses import ORJSONResponse
-
-
 from demo.handlers import v1
 
 router = APIRouter(

@@ -1,16 +1,16 @@
-from datetime import datetime
 from datetime import datetime, UTC
+
+from src.models import Base
 
 from sqlalchemy import (
     Column,
+    CHAR,
     VARCHAR,
     CheckConstraint,
     TIMESTAMP,
     String,
-    BOOLEAN,
-    BIGINT,
     ForeignKey,
-    inspect, INT, create_engine,
+    INT
 )
 from sqlalchemy.orm import relationship
 
@@ -19,6 +19,7 @@ from src.models import Base
 __all__ = [
     "Cases",
     "Comments",
+    "User"
 ]
 
 
@@ -47,13 +48,8 @@ class Cases(Base):
         back_populates="case_related"
     )
 
-    # def __str__(self) -> str:
-    #     return self.title
 
 class Comments(Base):
-    # __table_args__ = (
-    #     CheckConstraint(sqltext="length(title) >= 2"),
-    # )
 
     text = Column(
         VARCHAR(length=128),
@@ -80,3 +76,10 @@ class Comments(Base):
     def __str__(self) -> str:
         return self.text
 
+
+class User(Base):
+    email = Column(VARCHAR(length=128), nullable=False, unique=True)
+    password = Column(CHAR(length=60), nullable=False)
+
+    def __str__(self) -> str:
+        return self.email

@@ -1,20 +1,15 @@
 from datetime import datetime, UTC
-from math import ceil
 from typing import Literal
 
 from fastapi import APIRouter, Query, Path, HTTPException
-from pydantic import PositiveInt
 from sqlalchemy import select
 from sqlalchemy.orm import joinedload
-from sqlalchemy.sql.functions import count
 from starlette import status
-from starlette.requests import Request
 from sqlalchemy.exc import IntegrityError
 
 from demo.models import Cases, Comments
 from demo.schemas import CasesDetail, CasesCreateForm, CasesCreateCommentForm, CommentsDetail
 from src.dependencies import DBSession
-# from src.schemas.paginator import Paginator
 
 router = APIRouter(tags=["Cases"])
 
@@ -28,7 +23,6 @@ router = APIRouter(tags=["Cases"])
 async def cases_list(
         session: DBSession,
         order_by: Literal["id", "name"] = Query(default="id", alias="orderBy"),
-        # case_comment: list[PositiveInt] = Query(default=None),
         order: Literal["asc", "desc"] = Query(default="asc", alias="orderDirection")
 ):
     stmt = select(Cases)
@@ -47,11 +41,6 @@ async def cases_list(
     response_model=CasesDetail,
     name="demo_case_detail"
 )
-# async def topic_detail(session: DBSession, pk: int = Path(default=..., ge=1)):
-#     obj = await session.get(entity=Topic, ident=pk, options=[joinedload(Topic.tags)])
-#     if obj is None:
-#         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"topic {pk} not found")
-#     return TopicDetail.model_validate(obj=obj, from_attributes=True)
 
 async def case_detail(session: DBSession, pk: int = Path(default=..., ge=1)):
     obj = await session.get(entity=Cases, ident=pk, options=[joinedload(Cases.case_comment)])

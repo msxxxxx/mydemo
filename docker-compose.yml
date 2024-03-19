@@ -13,10 +13,13 @@ services:
     volumes:
       - "./src:/opt/src:ro"
       - "./demo:/opt/demo:ro"
+    environment:
+      SESSION_STORAGE_URL: redis://demo:6379/0
     env_file:
       - ".env"
     depends_on:
       - db
+      - redis
 
   migrations:
     container_name: "demo_migrations"
@@ -40,3 +43,9 @@ services:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin
       POSTGRES_DB: admin
+
+  redis:
+    container_name: "demo_redis"
+    hostname: "demo"
+    restart: always
+    image: redis:7.2.2-alpine3.18
