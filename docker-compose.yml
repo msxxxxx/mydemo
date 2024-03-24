@@ -13,6 +13,9 @@ services:
     volumes:
       - "./src:/opt/src:ro"
       - "./demo:/opt/demo:ro"
+      - "./templates:/opt/templates:ro"
+      - "./static:/opt/static:ro"
+      - "./pages:/opt/pages:ro"
     environment:
       SESSION_STORAGE_URL: redis://demo:6379/0
     env_file:

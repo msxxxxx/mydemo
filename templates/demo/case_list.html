@@ -1,0 +1,30 @@
+{% extends 'demo/layout.html' %}
+{% block title %}
+Cases
+{% endblock %}
+
+<header class="masthead" style="background:url({{ url_for('static', path='/demo/assets/img/home-bg1.jpg') }})">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="site-heading">
+                    <h1>"HEAD"</h1>
+                    <span class="subheading">"SUBHEAD"</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+{% block content %}
+{% for case in cases %}
+    <div class="case-preview">
+            <h2 class="case-title">{{ case.title}}</h2>
+            <h3 class="case-body">{{ case.body }}</h3>
+            <h3 class="case-date_created">{{ case.date_created }}</h3>
+            <h3 class="case-id">{{ case.id }}</h3>
+            <h3 class="case-comments">{{ case.comments.text }}</h3>
+    </div>
+{% endfor %}
+{% endblock %}

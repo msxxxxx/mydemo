@@ -12,11 +12,14 @@ from demo.models import User
 from demo.schemas import UserRegisterForm, UserLoginForm
 from demo.utils import create_password_hash, verify_password, create_jwt
 from src.dependencies import DBSession
-
+from pages.router import router as router_pages
+from src.config import static
 
 app = FastAPI()
 app.include_router(router=router)
 # app.include_router(router=router, dependencies=[check_session])
+app.include_router(router=router_pages)
+app.mount(path="/static", app=static, name="static")
 
 app.add_middleware(
     middleware_class=SessionMiddleware,
