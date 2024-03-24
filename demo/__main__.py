@@ -15,7 +15,8 @@ from src.dependencies import DBSession
 
 
 app = FastAPI()
-app.include_router(router=router, dependencies=[check_session])
+app.include_router(router=router)
+# app.include_router(router=router, dependencies=[check_session])
 
 app.add_middleware(
     middleware_class=SessionMiddleware,

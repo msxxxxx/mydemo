@@ -36,7 +36,7 @@ class Case(Base):
 
 
 class Comment(Base):
-    __table_args__ = (CheckConstraint(sqltext="length(title) >= 2"),)
+    __table_args__ = (CheckConstraint(sqltext="length(text) >= 2"),)
     text = Column(
         VARCHAR(length=128),
         nullable=False,

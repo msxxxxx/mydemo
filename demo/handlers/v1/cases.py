@@ -52,7 +52,7 @@ async def cases_create(session: DBSession, data: CaseCreateForm):
         slug=data.slug.lower(),
         body=data.body.upper(),
         title=data.title.upper(),
-        date_created=datetime.now(),
+        # date_created=datetime.now(),
     )
     session.add(instance=obj)
     try:
@@ -63,7 +63,7 @@ async def cases_create(session: DBSession, data: CaseCreateForm):
             status_code=status.HTTP_400_BAD_REQUEST, detail=f"Case {data.title} exist"
         )
     else:
-        obj = await session.scalars(
+        obj = await session.scalar(
             select(Case).options(joinedload(Case.comments)).filter(Case.id == obj.id)
         )
         return CaseDetail.model_validate(obj=obj, from_attributes=True)

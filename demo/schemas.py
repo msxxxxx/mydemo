@@ -76,7 +76,6 @@ class CaseDetail(BaseModel):
     comments: Optional[list[CommentDetail]] = Field(
         default=None, title="Cases Comments Details"
     )
-    # name: Optional[str] = None
 
 
 class UserRegisterForm(BaseModel):
