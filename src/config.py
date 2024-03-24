@@ -22,6 +22,5 @@ MANAGE_APP_MIGRATIONS = [
 ]
 
 config = Config()
-async_engine = create_async_engine(url=config.DATABASE_URL.unicode_string(), echo=True)
+async_engine = create_async_engine(url=config.DATABASE_URL.unicode_string())
 async_session_maker = async_sessionmaker(bind=async_engine)
-# engine (echo=True)

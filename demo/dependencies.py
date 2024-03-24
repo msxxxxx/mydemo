@@ -8,7 +8,9 @@ from demo.utils import verify_jwt
 from src.dependencies import DBSession
 
 
-async def _check_session(session: DBSession, request: Request, authorization: str = Header()):
+async def _check_session(
+    session: DBSession, request: Request, authorization: str = Header()
+):
     if not authorization.startswith("Bearer "):
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST)
 
@@ -18,5 +20,6 @@ async def _check_session(session: DBSession, request: Request, authorization: st
     if user is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
     request.session.update(user=user.id)
+
 
 check_session = Depends(dependency=_check_session)

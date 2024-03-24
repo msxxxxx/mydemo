@@ -14,5 +14,5 @@ class Base(DeclarativeBase):
         return re.sub(
             pattern=r"(?<!^)(?=[A-Z])",
             repl="_",
-            string=self.__module__.split(".")[0] + self.__name__
+            string=self.__module__.split(".")[0] + self.__name__,
         ).lower()

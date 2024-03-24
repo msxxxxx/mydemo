@@ -9,12 +9,10 @@ from redis import Redis
 class SessionStorage(ABC):
 
     @abstractmethod
-    def save(self, session_id: str, user_id: int, ex: timedelta) -> bool:
-        ...
+    def save(self, session_id: str, user_id: int, ex: timedelta) -> bool: ...
 
     @abstractmethod
-    def get(self, session_id: str) -> int:
-        ...
+    def get(self, session_id: str) -> int: ...
 
 
 class RedisSessionStorage(SessionStorage):
