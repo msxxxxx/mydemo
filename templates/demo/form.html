@@ -1,0 +1,16 @@
+{% extends 'demo/layout.html' %}
+{% block title %}
+Cases
+{% endblock %}
+
+{% block content %}
+<h1>Create Case</h1>
+<form id="CaseForm">
+   <label>Type Form Text:</label><br>
+   <input id="title" placeholder="type title">
+   <input id="slug" placeholder="type slug">
+   <input id="body" placeholder="type body">
+   <button type="submit">SEND</button>
+</form>
+{% endblock %}
+

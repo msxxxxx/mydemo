@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Request, Depends
+from fastapi import APIRouter, Request, Depends, Form
 
 from demo.forms import CaseForm
 from demo.handlers.v1.cases import cases_list, case_detail
@@ -25,13 +25,6 @@ def get_list_page(request: Request, cases=Depends(case_detail)):
     return templating.TemplateResponse("demo/case_detail.html", {"request": request, "cases": cases})
 
 
-@router.get(path="/create")
-async def get_create_case(request: Request):
-    form = CaseForm(await request.form())
-    return templating.TemplateResponse(
-        request=request,
-        name="demo/case_detail.html",
-        context={
-            "case_form": form
-        }
-    )
+@router.get('/create')
+def get_create_form(request: Request):
+    return templating.TemplateResponse('demo/form.html', {'request': request})
