@@ -1,6 +1,6 @@
 {% extends 'demo/layout.html' %}
 {% block title %}
-Cases
+Case
 {% endblock %}
 
 {% block content %}
@@ -16,12 +16,11 @@ Cases
         padding:5px;
     }
 </style>
-<table><tr><th>ID</th><th>Description</th><th>Date Created</th></tr></table>
-{% for case in cases %}
+<table><tr><th>ID</th><th>Description</th><th>Date Created</th><th>Body</th><th>Comments</th></tr></table>
+{% set obj = cases %}
     <div class="case-preview">
         <table>
-            <tr><td><a href="/cases/list/{{ case.id }}">{{ case.id }}</a></td><td>{{ case.title }}</td><td>{{ case.date_created }}</td></tr>
+            <tr><td>{{ obj.id }}</td><td>{{ obj.title }}</td><td>{{ obj.date_created }}</td><td>{{ obj.body }}</td><td>{{ obj.comments }}</td></tr>
         </table>
     </div>
-{% endfor %}
 {% endblock %}
