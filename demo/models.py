@@ -24,7 +24,6 @@ class Case(Base):
         VARCHAR(length=128),
         nullable=False,
     )
-    slug = Column(VARCHAR(length=128), nullable=False, unique=True)
     date_created = Column(
         TIMESTAMP(timezone=True),
         # default=lambda: datetime.now(tz=UTC),

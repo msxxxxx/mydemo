@@ -49,10 +49,8 @@ async def case_detail(session: DBSession, pk: int = Path(default=..., ge=1)):
 @router.post(path="/cases", response_model=CaseDetail, name="Case_demo_create")
 async def cases_create(session: DBSession, data: CaseCreateForm):
     obj = Case(
-        slug=data.slug.lower(),
-        body=data.body.upper(),
-        title=data.title.upper(),
-        # date_created=datetime.now(),
+        body=data.body,
+        title=data.title,
     )
     session.add(instance=obj)
     try:

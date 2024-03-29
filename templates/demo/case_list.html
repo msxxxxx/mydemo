@@ -4,24 +4,30 @@ Cases
 {% endblock %}
 
 {% block content %}
-<style>
+<style media="screen">
     table {
         width:100%;
         background: white;
-        color: white;
+        color: black;
         border-spacing: 1px;
     }
     td,th {
-        background: maroon;
-        padding:5px;
+        width: 25;
+        text-align: left;
+        background: white;
     }
 </style>
-<table><tr><th>ID</th><th>Description</th><th>Date Created</th></tr></table>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Description</th>
+        <th>Date Created</th>
+    </tr>
 {% for case in cases %}
-    <div class="case-preview">
-        <table>
-            <tr><td><a href="/cases/list/{{ case.id }}">{{ case.id }}</a></td><td>{{ case.title }}</td><td>{{ case.date_created }}</td></tr>
-        </table>
-    </div>
+    <tr>
+        <td><a href="/cases/list/{{ case.id }}">{{ case.id }}</a></td>
+        <td>{{ case.title }}</td>
+        <td>{{ case.date_created }}</td></tr>
 {% endfor %}
+</table>
 {% endblock %}

@@ -4,23 +4,48 @@ Case
 {% endblock %}
 
 {% block content %}
-<style>
+<style media="screen">
     table {
         width:100%;
         background: white;
-        color: white;
+        color: black;
         border-spacing: 1px;
     }
     td,th {
-        background: maroon;
-        padding:5px;
+        width: 25;
+        text-align: left;
+        background: white;
     }
 </style>
-<table><tr><th>ID</th><th>Description</th><th>Date Created</th><th>Body</th><th>Comments</th></tr></table>
+<h1>Case Description</h1>
+<table>
+    <tr>
+        <th>Description</th>
+        <th>Date Created</th>
+        <th>Body</th>
+    </tr>
 {% set obj = cases %}
-    <div class="case-preview">
-        <table>
-            <tr><td>{{ obj.id }}</td><td>{{ obj.title }}</td><td>{{ obj.date_created }}</td><td>{{ obj.body }}</td><td>{{ obj.comments }}</td></tr>
-        </table>
-    </div>
+    <tr>
+        <td>{{ obj.title }}</td>
+        <td>{{ obj.date_created }}</td>
+        <td>{{ obj.body }}</td>
+    </tr>
+</table>
+<table>
+    <tr>
+        <th>Comment</th>
+        <th>Date Created</th>
+    </tr>
+{% for comment in comments %}
+    <tr>
+        <td>{{ comment.text }}</td>
+        <td>{{ comment.date_created }}</td>
+    </tr>
+{% endfor %}
+</table>
+<h1>Add Comment</h1>
+<form id="CommentForm">
+   <input id="text" placeholder="type comment">
+   <button type="submit">SEND</button>
+</form>
 {% endblock %}

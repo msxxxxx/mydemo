@@ -3,19 +3,18 @@ version: "3.8 "
 services:
   demo:
     container_name: "demo_demo"
+#    ports:
+#      - "80:80"
     build:
       context: .
-      dockerfile: demo/Dockerfile
+      dockerfile: Dockerfile
     command: python -m demo
     restart: always
-    ports:
-      - "80:80"
     volumes:
       - "./src:/opt/src:ro"
       - "./demo:/opt/demo:ro"
-      - "./templates:/opt/templates:ro"
-      - "./static:/opt/static:ro"
       - "./pages:/opt/pages:ro"
+      - "./templates:/opt/templates:ro"
     environment:
       SESSION_STORAGE_URL: redis://demo:6379/0
     env_file:
@@ -28,7 +27,7 @@ services:
     container_name: "demo_migrations"
     build:
       context: .
-      dockerfile: migrations/Dockerfile
+      dockerfile: Dockerfile
     command: python -m migrations
     volumes:
       - ".:/opt:rw"
@@ -52,3 +51,16 @@ services:
     hostname: "demo"
     restart: always
     image: redis:7.2.2-alpine3.18
+
+  server:
+    container_name: "demo-nginx"
+    image: nginx:1.25.3-alpine3.18
+    ports:
+      - "80:80"
+    volumes:
+      - "./conf.d/default.conf:/etc/nginx/conf.d/default.conf:ro"
+      - "./log:/var/log/nginx:rw"
+      - "./static:/opt/static:ro"
+      - "./templates:/opt/templates:ro"
+    depends_on:
+      - demo

@@ -33,16 +33,9 @@ class CaseCreateForm(BaseModel):
         min_length=2,
         max_length=128,
         title="Case Title",
-        examples=["Кто убил мертвое море?"],
+        examples=["My Case"],
     )
-    slug: str = Field(
-        default=...,
-        min_length=2,
-        max_length=128,
-        title="Case Title",
-        examples=["kto-ubil-mertvoe-more"],
-    )
-    body: str = Field(default=..., min_length=1, title="Case Body", examples=["Me"])
+    body: str = Field(default=..., min_length=1, title="Case Body", examples=["Something happened"])
 
 
 class CommentCreateForm(BaseModel):
@@ -58,21 +51,14 @@ class CommentCreateForm(BaseModel):
 class CaseDetail(BaseModel):
     id: PositiveInt = Field(default=..., title="Case ID", examples=[42])
     date_created: datetime = Field(default=..., title="Date of created case")
-    slug: str = Field(
-        default=...,
-        min_length=2,
-        max_length=128,
-        title="Case Title",
-        examples=["kto-ubil-mertvoe-more"],
-    )
     title: str = Field(
         default=...,
         min_length=2,
         max_length=128,
         title="Case Title",
-        examples=["Кто убил мертвое море?"],
+        examples=["My Case"],
     )
-    body: str = Field(default=..., min_length=1, title="Case Body", examples=["Me"])
+    body: str = Field(default=..., min_length=1, title="Case Body", examples=["Something happened"])
     comments: Optional[list[CommentDetail]] = Field(
         default=None, title="Cases Comments Details"
     )

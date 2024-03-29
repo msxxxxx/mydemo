@@ -30,7 +30,7 @@ config = Config()
 async_engine = create_async_engine(url=config.DATABASE_URL.unicode_string())
 async_session_maker = async_sessionmaker(bind=async_engine)
 templating = Jinja2Templates(directory=config.BASE_DIR / "templates")
-static = StaticFiles(directory=config.BASE_DIR / "static")
+static = StaticFiles(directory=config.BASE_DIR / "static", check_dir=False)
 
 
 
