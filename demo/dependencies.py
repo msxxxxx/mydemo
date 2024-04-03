@@ -22,4 +22,20 @@ async def _check_session(
     request.session.update(user=user.id)
 
 
+async def _authenticate(request: Request):
+    authorization = request.headers.get("authorization")
+    if authorization is None:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN)
+
+    if not authorization.startswith("Bearer "):
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN)
+
+    token = authorization.removeprefix("Bearer ")
+    try:
+        payload = verify_jwt(jwt=token)
+    except ValueError as e:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=f'{e}')
+    request.state.user = payload
+
+authenticate = Depends(dependency=_authenticate)
 check_session = Depends(dependency=_check_session)

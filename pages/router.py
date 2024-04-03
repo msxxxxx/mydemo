@@ -1,12 +1,14 @@
 from fastapi import APIRouter, Request, Depends, Form
 
+from demo.dependencies import check_session, authenticate
 from demo.handlers.v1.cases import cases_list, case_detail
 from demo.handlers.v1.comments import comment_detail
 from demo.schemas import CaseDetail
 from src.config import templating
 router = APIRouter(
     prefix="/cases",
-    tags=["Pages"]
+    tags=["Pages"],
+    dependencies=[authenticate]
 )
 
 

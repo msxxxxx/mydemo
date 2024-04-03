@@ -1,3 +1,5 @@
+from starlette.requests import Request
+
 from demo.handlers import router
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import PlainTextResponse
@@ -9,17 +11,20 @@ from uvicorn.middleware.proxy_headers import ProxyHeadersMiddleware
 
 from demo.dependencies import check_session
 from demo.models import User
-from demo.schemas import UserRegisterForm, UserLoginForm
-from demo.utils import create_password_hash, verify_password, create_jwt
+from demo.schemas import UserRegisterForm, UserLoginForm, TokenPairDetail
+from demo.utils import create_password_hash, verify_password, create_jwt, create_access_token
 from src.dependencies import DBSession
 from pages.router import router as router_pages
-from src.config import static
+from src.config import static, templating
+
+from demo.config import config
 
 app = FastAPI()
-app.include_router(router=router)
-# app.include_router(router=router, dependencies=[check_session])
+# app.include_router(router=router)
+app.include_router(router=router, dependencies=[check_session])
 app.include_router(router=router_pages)
 app.mount(path="/static", app=static, name="static")
+
 
 app.add_middleware(
     middleware_class=SessionMiddleware,
@@ -27,6 +32,11 @@ app.add_middleware(
     session_cookie="sessionID",
 )
 app.add_middleware(middleware_class=ProxyHeadersMiddleware, trusted_hosts=("*",))
+
+
+@app.get(path="/login")
+async def index(request: Request):
+    return templating.TemplateResponse(request=request, name="demo/sign-in.html")
 
 
 @app.post(path="/signup", name="signup", status_code=status.HTTP_201_CREATED)
@@ -50,7 +60,7 @@ async def signup(session: DBSession, form: UserRegisterForm):
     path="/signin",
     name="signin",
     status_code=status.HTTP_200_OK,
-    response_class=PlainTextResponse,
+    response_model=TokenPairDetail,
 )
 async def signin(session: DBSession, form: UserLoginForm):
     user = await session.scalar(statement=select(User).filter(User.email == form.email))
@@ -64,9 +74,19 @@ async def signin(session: DBSession, form: UserLoginForm):
             status_code=status.HTTP_401_UNAUTHORIZED, detail="incorrect password"
         )
 
-    jwt = create_jwt(payload={"sub": user.id})
-
-    return jwt
+    payload = {
+        "sub": user.id
+    }
+    access_token = create_access_token(payload=payload)
+    print(type(access_token))
+    print(access_token)
+    refresh_token = create_access_token(payload=payload)
+    # return "access_token: " + str(access_token)
+    return TokenPairDetail(
+        access_token=access_token,
+        refresh_token=refresh_token,
+        token_type="Bearer"
+    )
 
 
 if __name__ == "__main__":

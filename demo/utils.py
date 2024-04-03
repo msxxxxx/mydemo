@@ -16,9 +16,19 @@ def verify_password(hashed_password: str, plain_password: str) -> bool:
     return pwd_context.verify(secret=plain_password, hash=hashed_password)
 
 
-def create_jwt(payload: dict) -> str:
-    payload["exp"] = datetime.now() + timedelta(minutes=config.JWT_EXP)
-    return encode(payload=payload, key=config.JWT_SECRET_KEY)
+def create_jwt(*, payload: dict, exp: int, key: str, algorithm: str) -> str:
+    # payload["exp"] = datetime.now() + timedelta(minutes=config.JWT_EXP)
+    payload.update({"exp": datetime.now() + timedelta(minutes=config.JWT_EXP)})
+    return encode(payload=payload, key=key, algorithm=algorithm)
+
+
+def create_access_token(payload: dict) -> str:
+    return create_jwt(
+        payload=payload,
+        exp=config.JWT_EXP,
+        algorithm="HS256",
+        key=config.JWT_SECRET_KEY
+    )
 
 
 def verify_jwt(jwt: str) -> dict:

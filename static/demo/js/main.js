@@ -1,3 +1,75 @@
+function loadCases() {
+    $.ajax({
+        url: "/cases/",
+        method: "GET",
+        dataType: "json",
+        headers: {
+            Authorization: `${localStorage.getItem("token_type")} ${localStorage.getItem("access_token")}`
+        },
+        success: function (data) {
+            console.log(data)
+            alert("Case Added!");
+            window.location = "/cases/list/";
+        },
+        error: function (data) {
+            refreshToken(loadFinanceList)
+        }
+    })
+}
+
+function login(e) {
+    e.preventDefault();
+    $.ajax({
+        url: '/signin',
+        method: "POST",
+        dataType: "json",
+        contentType: "application/json",
+        data: JSON.stringify({
+            email: this.email.value,
+            password: this.password.value
+        }),
+        success: function (data) {
+            localStorage.setItem(
+                "access_token", data.access_token
+            );
+            localStorage.setItem(
+                "refresh_token", data.refresh_token
+            );
+            localStorage.setItem(
+                "token_type", data.token_type
+            );
+            alert("ok")
+            window.location = "/cases/list/";
+            loadCases()
+//            document.location.replace()
+
+        },
+        error: function (data) {
+            if (data.responseJSON.detail === "user not found") {
+                let loginForm = document.getElementById("loginForm")
+                let emailLabel = document.getElementById("emailLabel")
+                emailLabel.innerHTML = "User Not Found";
+                loginForm.email.className = "form-control border-warning"
+            }
+        }
+    })
+}
+
+$(document).ready(function () {
+    let accessToken = localStorage.getItem("access_token");
+    let tokenType = localStorage.getItem("token_type");
+    console.log(accessToken, tokenType)
+
+    if ((accessToken === null || tokenType == null) && document.location.pathname !== "/login") {
+        document.location.replace("/login")
+    } else if (document.location.pathname !== "/login") {
+        loadCases();
+        alert("test")
+    }
+})
+
+$("#loginForm").on("submit", login)
+
 function Form(e) {
     e.preventDefault();
     $.ajax(
