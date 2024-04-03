@@ -1,21 +1,21 @@
-function loadCases() {
-    $.ajax({
-        url: "/cases/",
-        method: "GET",
-        dataType: "json",
-        headers: {
-            Authorization: `${localStorage.getItem("token_type")} ${localStorage.getItem("access_token")}`
-        },
-        success: function (data) {
-            console.log(data)
-            alert("Case Added!");
-            window.location = "/cases/list/";
-        },
-        error: function (data) {
-            refreshToken(loadFinanceList)
-        }
-    })
-}
+//function loadCases() {
+//    $.ajax({
+//        url: "/cases/",
+//        method: "GET",
+//        dataType: "json",
+//        headers: {
+//            Authorization: `${localStorage.getItem("token_type")} ${localStorage.getItem("access_token")}`
+//        },
+//        success: function (data) {
+//            console.log(data)
+//            alert("Case Added!");
+//            window.location = "/cases/list/";
+//        },
+//        error: function (data) {
+//            refreshToken(loadFinanceList)
+//        }
+//    })
+//}
 
 function login(e) {
     e.preventDefault();
@@ -38,9 +38,11 @@ function login(e) {
             localStorage.setItem(
                 "token_type", data.token_type
             );
-            alert("ok")
-            window.location = "/cases/list/";
-            loadCases()
+//            setRequestHeader('Authorization', data.access_token);
+            window.location.assign('/cases');
+//            alert("ok")
+//            window.location = "/cases/list/";
+//            loadCases()
 //            document.location.replace()
 
         },
@@ -52,21 +54,34 @@ function login(e) {
                 loginForm.email.className = "form-control border-warning"
             }
         }
-    })
+    });
+//    $.ajax({
+//        url: "/cases/",
+//        method: "GET",
+//        dataType: "json",
+//        headers: {
+//            Authorization: `${localStorage.getItem("token_type")} ${localStorage.getItem("access_token")}`
+//        },
+//        success: function (data) {
+//        },
+//        error: function (data) {
+//            refreshToken(loadFinanceList)
+//        }
+//    })
 }
 
-$(document).ready(function () {
-    let accessToken = localStorage.getItem("access_token");
-    let tokenType = localStorage.getItem("token_type");
-    console.log(accessToken, tokenType)
-
-    if ((accessToken === null || tokenType == null) && document.location.pathname !== "/login") {
-        document.location.replace("/login")
-    } else if (document.location.pathname !== "/login") {
-        loadCases();
-        alert("test")
-    }
-})
+//$(document).ready(function () {
+//    let accessToken = localStorage.getItem("access_token");
+//    let tokenType = localStorage.getItem("token_type");
+//    console.log(accessToken, tokenType)
+//
+//    if ((accessToken === null || tokenType == null) && document.location.pathname !== "/login") {
+//        document.location.replace("/login")
+//    } else if (document.location.pathname !== "/login") {
+//        loadCases();
+//        alert("test")
+//    }
+//})
 
 $("#loginForm").on("submit", login)
 
