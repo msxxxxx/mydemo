@@ -28,7 +28,7 @@ function login(e) {
 //                value: data.access_token
 //            })
 //            document.cookie="test cookie";
-            document.cookie="access_token=Bearer " + data.access_token + "; Secure";
+            document.cookie="access_token=Bearer " + data.access_token + "; SameSite=None";
             alert("this is document.cookie: " + document.cookie);
             window.location.assign('/cases')
 //            setCookies: "lkfh89asdhjahska7al446dfg5kgfbfgdhfdbfgcvbcbc dfskljvdfhpl"
