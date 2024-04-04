@@ -1,4 +1,5 @@
 from starlette.requests import Request
+from starlette.responses import Response
 
 from demo.handlers import router
 from fastapi import FastAPI, HTTPException
@@ -37,6 +38,13 @@ app.add_middleware(middleware_class=ProxyHeadersMiddleware, trusted_hosts=("*",)
 @app.get(path="/login")
 async def index(request: Request):
     return templating.TemplateResponse(request=request, name="demo/sign-in.html")
+
+
+@app.get(path="/logout")
+async def index(request: Request, response: Response):
+    response = templating.TemplateResponse(request=request, name="demo/sign-in.html")
+    response.delete_cookie("access_token")
+    return response
 
 
 @app.get(path="/register")
