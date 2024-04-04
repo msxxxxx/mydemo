@@ -1,25 +1,7 @@
-//function loadCases() {
-//    $.ajax({
-//        url: "/cases/",
-//        method: "GET",
-//        dataType: "json",
-//        headers: {
-//            Authorization: `${localStorage.getItem("token_type")} ${localStorage.getItem("access_token")}`
-//        },
-//        success: function (data) {
-//            console.log(data)
-//            alert("Case Added!");
-//            window.location = "/cases/list/";
-//        },
-//        error: function (data) {
-//            refreshToken(loadFinanceList)
-//        }
-//    })
-//}
-
 function login(e) {
     e.preventDefault();
-    $.ajax({
+    $.ajax(
+    {
         url: '/signin',
         method: "POST",
         dataType: "json",
@@ -38,13 +20,29 @@ function login(e) {
             localStorage.setItem(
                 "token_type", data.token_type
             );
-//            setRequestHeader('Authorization', data.access_token);
-            window.location.assign('/cases');
-//            alert("ok")
-//            window.location = "/cases/list/";
-//            loadCases()
-//            document.location.replace()
-
+//            Cookie.setItem(
+//                "refresh_token", data.refresh_token
+//            );
+//            cookies.set({
+//                name: "access_token",
+//                value: data.access_token
+//            })
+//            document.cookie="test cookie";
+            document.cookie="access_token=Bearer " + data.access_token + "; Secure";
+            alert("this is document.cookie: " + document.cookie);
+            window.location.assign('/cases')
+//            setCookies: "lkfh89asdhjahska7al446dfg5kgfbfgdhfdbfgcvbcbc dfskljvdfhpl"
+//            document.cookie="mySite=localhost; expires=Thu, 18 Dec 2015 12:00:00 UTC; path=/ SameSite=None;"
+//            const cookie = require('cookie');
+//            const token = data.access_token;
+//            const secureCookie = true;
+//            const httpOnlyCookie = true;
+//            const cookieOptions = {
+//            secure: secureCookie,
+//            httpOnly: httpOnlyCookie,
+//            };
+//            const cookieString = cookie.serialize(data.access_token, token, cookieOptions);
+//            res.setHeader('Set-Cookie', cookieString);
         },
         error: function (data) {
             if (data.responseJSON.detail === "user not found") {
@@ -54,36 +52,36 @@ function login(e) {
                 loginForm.email.className = "form-control border-warning"
             }
         }
-    });
-//    $.ajax({
-//        url: "/cases/",
-//        method: "GET",
-//        dataType: "json",
-//        headers: {
-//            Authorization: `${localStorage.getItem("token_type")} ${localStorage.getItem("access_token")}`
-//        },
-//        success: function (data) {
-//        },
-//        error: function (data) {
-//            refreshToken(loadFinanceList)
-//        }
-//    })
+    })
 }
 
-//$(document).ready(function () {
-//    let accessToken = localStorage.getItem("access_token");
-//    let tokenType = localStorage.getItem("token_type");
-//    console.log(accessToken, tokenType)
-//
-//    if ((accessToken === null || tokenType == null) && document.location.pathname !== "/login") {
-//        document.location.replace("/login")
-//    } else if (document.location.pathname !== "/login") {
-//        loadCases();
-//        alert("test")
-//    }
-//})
-
 $("#loginForm").on("submit", login)
+
+function register(e) {
+    e.preventDefault();
+    $.ajax(
+    {
+        url: '/signup',
+        method: "POST",
+        dataType: "json",
+        contentType: "application/json",
+        data: JSON.stringify(
+        {
+            email: this.login.value,
+            password: this.pass.value,
+            confirm_password: this.conf_pass.value
+        }),
+        success: function (data) {
+            window.location.assign('/login')
+        },
+        error: function (data) {
+            alert("error")
+            window.location.assign('/register')
+        }
+    })
+}
+
+$("#registerForm").on("submit", register)
 
 function Form(e) {
     e.preventDefault();

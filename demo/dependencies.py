@@ -23,14 +23,14 @@ async def _check_session(
 
 
 async def _authenticate(request: Request):
-    authorization = request.headers.get("authorization")
+    authorization = request.headers.get("cookie")
     if authorization is None:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN)
 
-    if not authorization.startswith("Bearer "):
+    if not authorization.startswith("access_token=Bearer "):
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN)
 
-    token = authorization.removeprefix("Bearer ")
+    token = authorization.removeprefix("access_token=Bearer ")
     try:
         payload = verify_jwt(jwt=token)
     except ValueError as e:

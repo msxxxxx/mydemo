@@ -9,7 +9,7 @@ from starlette import status
 from starlette.middleware.sessions import SessionMiddleware
 from uvicorn.middleware.proxy_headers import ProxyHeadersMiddleware
 
-from demo.dependencies import check_session
+from demo.dependencies import check_session, authenticate
 from demo.models import User
 from demo.schemas import UserRegisterForm, UserLoginForm, TokenPairDetail
 from demo.utils import create_password_hash, verify_password, create_jwt, create_access_token
@@ -21,7 +21,7 @@ from demo.config import config
 
 app = FastAPI()
 # app.include_router(router=router)
-app.include_router(router=router, dependencies=[check_session])
+app.include_router(router=router, dependencies=[authenticate])
 app.include_router(router=router_pages)
 app.mount(path="/static", app=static, name="static")
 
@@ -37,6 +37,11 @@ app.add_middleware(middleware_class=ProxyHeadersMiddleware, trusted_hosts=("*",)
 @app.get(path="/login")
 async def index(request: Request):
     return templating.TemplateResponse(request=request, name="demo/sign-in.html")
+
+
+@app.get(path="/register")
+async def index(request: Request):
+    return templating.TemplateResponse(request=request, name="demo/sign-up.html")
 
 
 @app.post(path="/signup", name="signup", status_code=status.HTTP_201_CREATED)
