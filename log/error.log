@@ -1736,3 +1736,10 @@
 2024/04/22 12:28:27 [error] 21#21: *10 open() "/opt/static/demo/js/axios.min.js.map" failed (2: No such file or directory), client: 172.22.0.1, server: localhost, request: "GET /static/demo/js/axios.min.js.map HTTP/1.1", host: "localhost"
 2024/04/22 12:28:32 [error] 21#21: *4 connect() failed (111: Connection refused) while connecting to upstream, client: 172.22.0.1, server: localhost, request: "POST /signin HTTP/1.1", upstream: "http://172.22.0.3:80/signin", host: "localhost", referrer: "https://localhost/logout"
 2024/04/22 12:28:32 [error] 21#21: *4 connect() failed (111: Connection refused) while connecting to upstream, client: 172.22.0.1, server: localhost, request: "POST /signin HTTP/1.1", upstream: "http://172.22.0.2:80/signin", host: "localhost", referrer: "https://localhost/logout"
+2024/04/22 12:43:28 [notice] 1#1: signal 3 (SIGQUIT) received, shutting down
+2024/04/22 12:43:28 [notice] 21#21: gracefully shutting down
+2024/04/22 12:43:28 [notice] 21#21: exiting
+2024/04/22 12:43:28 [notice] 21#21: exit
+2024/04/22 12:43:28 [notice] 1#1: signal 17 (SIGCHLD) received from 21
+2024/04/22 12:43:28 [notice] 1#1: worker process 21 exited with code 0
+2024/04/22 12:43:28 [notice] 1#1: exit
