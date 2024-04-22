@@ -27,6 +27,7 @@ class Schema(BaseModel):
 
 
 class TokenPairDetail(Schema):
+    user_name: str
     access_token: str
     refresh_token: str
     token_type: str

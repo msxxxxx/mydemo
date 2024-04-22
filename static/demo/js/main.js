@@ -12,6 +12,9 @@ function login(e) {
         }),
         success: function (data) {
             localStorage.setItem(
+                "user_name", data.user_name
+            );
+            localStorage.setItem(
                 "access_token", data.access_token
             );
             localStorage.setItem(
@@ -20,29 +23,11 @@ function login(e) {
             localStorage.setItem(
                 "token_type", data.token_type
             );
-//            Cookie.setItem(
-//                "refresh_token", data.refresh_token
-//            );
-//            cookies.set({
-//                name: "access_token",
-//                value: data.access_token
-//            })
-//            document.cookie="test cookie";
-            document.cookie="access_token=Bearer " + data.access_token + "; SameSite=None";
-            alert("this is document.cookie: " + document.cookie);
+//            document.cookie="access_token=Bearer " + data.access_token + ";";
+            document.cookie="access_token=Bearer " + data.access_token + "; SameSite=Strict; Secure";
+//            document.cookie = "name=oeschger; SameSite=None; Secure";
+//            alert("this is document.cookie: " + document.cookie);
             window.location.assign('/cases')
-//            setCookies: "lkfh89asdhjahska7al446dfg5kgfbfgdhfdbfgcvbcbc dfskljvdfhpl"
-//            document.cookie="mySite=localhost; expires=Thu, 18 Dec 2015 12:00:00 UTC; path=/ SameSite=None;"
-//            const cookie = require('cookie');
-//            const token = data.access_token;
-//            const secureCookie = true;
-//            const httpOnlyCookie = true;
-//            const cookieOptions = {
-//            secure: secureCookie,
-//            httpOnly: httpOnlyCookie,
-//            };
-//            const cookieString = cookie.serialize(data.access_token, token, cookieOptions);
-//            res.setHeader('Set-Cookie', cookieString);
         },
         error: function (data) {
             if (data.responseJSON.detail === "user not found") {

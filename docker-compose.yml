@@ -57,8 +57,10 @@ services:
     image: nginx:1.25.3-alpine3.18
     ports:
       - "80:80"
+      - "443:443"
     volumes:
       - "./conf.d/default.conf:/etc/nginx/conf.d/default.conf:ro"
+      - "./certs:/etc/nginx/certs:ro"
       - "./log:/var/log/nginx:rw"
       - "./static:/opt/static:ro"
       - "./templates:/opt/templates:ro"

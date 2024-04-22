@@ -17,7 +17,6 @@ from demo.utils import create_password_hash, verify_password, create_jwt, create
 from src.dependencies import DBSession
 from pages.router import router as router_pages
 from src.config import static, templating
-
 from demo.config import config
 
 app = FastAPI()
@@ -91,11 +90,10 @@ async def signin(session: DBSession, form: UserLoginForm):
         "sub": user.id
     }
     access_token = create_access_token(payload=payload)
-    print(type(access_token))
-    print(access_token)
     refresh_token = create_access_token(payload=payload)
-    # return "access_token: " + str(access_token)
+    user_name = user.email
     return TokenPairDetail(
+        user_name=user_name,
         access_token=access_token,
         refresh_token=refresh_token,
         token_type="Bearer"
