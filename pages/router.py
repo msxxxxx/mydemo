@@ -18,7 +18,7 @@ router = APIRouter(
     dependencies=[authenticate]
 )
 
-#new
+
 @router.get("/")
 def get_base_page(request: Request, user=Depends(_authenticate)):
     return templating.TemplateResponse("demo/index.html", {"request": request, "user": user})
