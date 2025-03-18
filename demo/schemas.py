@@ -1,7 +1,7 @@
 from datetime import datetime, UTC
 from typing import Optional
 
-from pydantic import BaseModel, PositiveInt, EmailStr, Field, model_validator, ConfigDict, Json
+from pydantic import BaseModel, PositiveInt, EmailStr, Field, model_validator, ConfigDict, Json, ValidationError
 from demo.types import PasswordStr
 
 __all__ = [
@@ -55,6 +55,14 @@ class CaseCreateForm(BaseModel):
         examples=["My Case"],
     )
     body: str = Field(default=..., min_length=1, title="Case Body", examples=["Something happened"])
+    # priority: str = Field(default=..., min_length=1, title="Case Body", examples=["pr"])
+    # label: str = Field(default=..., min_length=1, title="Case Body", examples=["k"])
+    category: str = Field(default=..., min_length=1, title="Case Body", examples=["yu"])
+    # reported: str = Field(default=..., min_length=1, title="Case Body", examples=["uy"])
+    # measures: str = Field(default=..., min_length=1, title="Case Body", examples=["uy"])
+    # investigate: str = Field(default=..., min_length=1, title="Case Body", examples=["uy"])
+    # recommendations: str = Field(default=..., min_length=1, title="Case Body", examples=["uyu"])
+
 
 
 class CommentCreateForm(BaseModel):
@@ -78,6 +86,7 @@ class CaseDetail(BaseModel):
         examples=["My Case"],
     )
     body: str = Field(default=..., min_length=1, title="Case Body", examples=["Something happened"])
+    category: str = Field(default=..., min_length=1, title="C", examples=["Something"])
     comments: Optional[list[CommentDetail]] = Field(
         default=None, title="Cases Comments Details"
     )
@@ -102,3 +111,5 @@ class UserRegisterForm(BaseModel):
 class UserLoginForm(BaseModel):
     email: EmailStr
     password: PasswordStr = Field(default=..., min_length=8, max_length=64)
+
+

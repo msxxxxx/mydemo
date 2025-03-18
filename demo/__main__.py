@@ -1,5 +1,9 @@
+import fastapi
+from fastapi.encoders import jsonable_encoder
+from fastapi.exceptions import RequestValidationError
+from pydantic import ValidationError
 from starlette.requests import Request
-from starlette.responses import Response
+from starlette.responses import Response, JSONResponse
 
 from demo.handlers import router
 from fastapi import FastAPI, HTTPException
@@ -78,12 +82,12 @@ async def signin(session: DBSession, form: UserLoginForm):
     user = await session.scalar(statement=select(User).filter(User.email == form.email))
     if user is None:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="user not found"
+            status_code=status.HTTP_403_FORBIDDEN, detail="user or password invalid"
         )
 
     if not verify_password(hashed_password=user.password, plain_password=form.password):
         raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED, detail="incorrect password"
+            status_code=status.HTTP_403_FORBIDDEN, detail="user or password invalid"
         )
 
     payload = {

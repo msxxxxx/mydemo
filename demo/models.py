@@ -31,6 +31,13 @@ class Case(Base):
         nullable=False,
     )
     body = Column(String, nullable=False)
+    category = Column(String, nullable=False)
+    # priority = Column(String, nullable=False)
+    # label = Column(String, nullable=False)
+    # reported = Column(String, nullable=False)
+    # measures = Column(String, nullable=False)
+    # investigate = Column(String, nullable=False)
+    # recommendations = Column(String, nullable=False)
     comments = relationship(argument="Comment", back_populates="case")
 
 

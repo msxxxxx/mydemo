@@ -23,19 +23,25 @@ function login(e) {
             localStorage.setItem(
                 "token_type", data.token_type
             );
-//            document.cookie="access_token=Bearer " + data.access_token + ";";
-            document.cookie="access_token=Bearer " + data.access_token + "; SameSite=Strict; Secure";
-//            document.cookie = "name=oeschger; SameSite=None; Secure";
-//            alert("this is document.cookie: " + document.cookie);
+            document.cookie="access_token=Bearer " + localStorage.getItem('access_token') + "; domain=test.test";
             window.location.assign('/cases')
+
         },
+//        error: function (data) {
+//            alert("user or password invalid")
+//            window.location.assign('/login')
+//        }
         error: function (data) {
-            if (data.responseJSON.detail === "user not found") {
+            if (data.responseJSON.detail === "user or password invalid") {
                 let loginForm = document.getElementById("loginForm")
                 let emailLabel = document.getElementById("emailLabel")
-                emailLabel.innerHTML = "User Not Found";
+                emailLabel.innerHTML = "User or Password Invalid";
                 loginForm.email.className = "form-control border-warning"
             }
+            else {
+                alert("user or password invalid")
+                window.location.assign('/login')
+                }
         }
     })
 }
@@ -53,14 +59,14 @@ function register(e) {
         data: JSON.stringify(
         {
             email: this.login.value,
-            password: this.pass.value,
-            confirm_password: this.conf_pass.value
+            password: this.password.value,
+            confirm_password: this.conf_password.value
         }),
         success: function (data) {
             window.location.assign('/login')
         },
         error: function (data) {
-            alert("error")
+            alert("something wrong")
             window.location.assign('/register')
         }
     })
@@ -79,7 +85,8 @@ function Form(e) {
         data: JSON.stringify(
         {
             title: this.title.value,
-            body: this.body.value
+            body: this.body.value,
+            category: this.category.value
             }),
         success: function(data) {
             console.log(data)
@@ -101,7 +108,7 @@ function FormC(e) {
         contentType: 'application/json',
         data: JSON.stringify(
         {
-            text: this.text.value,
+            text: this.text.value
             }),
         success: function(data) {
             console.log(data)
@@ -113,3 +120,21 @@ function FormC(e) {
 
 $("#CommentForm").on("submit", FormC)
 $("#CaseForm").on("submit", Form)
+
+function myFunction() {
+  var x = document.getElementById("password");
+  if (x.type === "password") {
+    x.type = "text";
+  } else {
+    x.type = "password";
+  }
+}
+
+function myFunctionConf() {
+  var x = document.getElementById("conf_password");
+  if (x.type === "password") {
+    x.type = "text";
+  } else {
+    x.type = "password";
+  }
+}

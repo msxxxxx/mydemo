@@ -1,5 +1,6 @@
 from datetime import datetime, UTC
 from typing import Literal
+from unicodedata import category
 
 from fastapi import APIRouter, Query, Path, HTTPException
 from sqlalchemy import select
@@ -51,6 +52,7 @@ async def cases_create(session: DBSession, data: CaseCreateForm):
     obj = Case(
         body=data.body,
         title=data.title,
+        category=data.category
     )
     session.add(instance=obj)
     try:

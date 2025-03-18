@@ -7,14 +7,14 @@ Case
 <style media="screen">
     table {
         width:100%;
-        background: white;
+        background: #989898;
         color: black;
         border-spacing: 1px;
     }
     td,th {
         width: 25;
         text-align: left;
-        background: white;
+        background: #989898;
     }
 </style>
 <h1>Case Description</h1>
@@ -23,12 +23,22 @@ Case
         <th>Description</th>
         <th>Date Created</th>
         <th>Body</th>
+        <th>Category</th>
+<!--        <th>Reported</th>-->
+<!--        <th>Reactive Measures</th>-->
+<!--        <th>Investigate</th>-->
+<!--        <th>Recommendations</th>-->
     </tr>
 {% set obj = cases %}
     <tr>
         <td>{{ obj.title }}</td>
         <td>{{ obj.date_created }}</td>
         <td>{{ obj.body }}</td>
+        <td>{{ obj.category }}</td>
+<!--        <td>{{ obj.reported }}</td>-->
+<!--        <td>{{ obj.measures }}</td>-->
+<!--        <td>{{ obj.investigate }}</td>-->
+<!--        <td>{{ obj.recommendations }}</td>-->
     </tr>
 </table>
 <table>
