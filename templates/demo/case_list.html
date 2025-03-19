@@ -7,14 +7,17 @@ Cases
 <style media="screen">
     table {
         width:100%;
-        background: #989898;
-        color: black;
-        border-spacing: 1px;
+<!--        background: #989898;-->
+        background: none;
+        color: green;
+<!--        border-spacing: 1px;-->
+        border: 0;
     }
     td,th {
         width: 25;
         text-align: left;
-        background: #989898;
+<!--        background: #989898;-->
+        background: none;
     }
 </style>
 <table>
@@ -23,6 +26,7 @@ Cases
         <th>Description</th>
         <th>Date Created</th>
         <th>Category</th>
+        <th>Author</th>
 <!--        <th>Reported</th>-->
 <!--        <th>Reactive Measures</th>-->
 <!--        <th>Investigate</th>-->
@@ -34,6 +38,7 @@ Cases
         <td>{{ case.title }}</td>
         <td>{{ case.date_created }}</td>
         <td>{{ case.category }}</td>
+        <td>{{ case.author_id }}</td>
 <!--        <td>{{ case.reported }}</td>-->
 <!--        <td>{{ case.measures }}</td>-->
 <!--        <td>{{ case.investigate }}</td>-->

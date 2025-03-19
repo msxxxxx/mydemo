@@ -61,6 +61,29 @@ async def _authenticate(session: DBSession, request: Request):
     # print(request.state.user)
     return user_name
 
+async def _check_user(session: DBSession, request: Request):
+    authorization = request.headers.get("cookie")
+    if authorization is None:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN)
+
+    if not authorization.startswith("access_token=Bearer "):
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN)
+
+    token = authorization.removeprefix("access_token=Bearer ")
+    try:
+        payload = verify_jwt(jwt=token)
+    except ValueError as e:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=f'{e}')
+    user = await session.get(entity=User, ident=payload.get("sub"))
+    if user is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
+    user = user.id
+    # print(user_name)
+    # request.session.update(user=user.id)
+    request.state.user = payload
+    # print(request.state.user)
+    return user
+
 
 authenticate = Depends(dependency=_authenticate)
 check_session = Depends(dependency=_check_session)

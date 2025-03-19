@@ -1,14 +1,15 @@
 from datetime import datetime, UTC
 from typing import Literal
-from unicodedata import category
+from starlette.requests import Request
 
-from fastapi import APIRouter, Query, Path, HTTPException
+from fastapi import APIRouter, Query, Path, HTTPException, Depends
 from sqlalchemy import select
 from sqlalchemy.orm import joinedload
 from starlette import status
 from sqlalchemy.exc import IntegrityError
 
-from demo.models import Comment, Case
+from demo.dependencies import _authenticate, _check_session, _check_user
+from demo.models import Comment, Case, User
 from demo.schemas import CaseDetail, CaseCreateForm, CommentCreateForm, CommentDetail
 from src.dependencies import DBSession
 
@@ -48,11 +49,12 @@ async def case_detail(session: DBSession, pk: int = Path(default=..., ge=1)):
 
 
 @router.post(path="/cases", response_model=CaseDetail, name="Case_demo_create")
-async def cases_create(session: DBSession, data: CaseCreateForm):
+async def cases_create(session: DBSession, data: CaseCreateForm, request: Request, user=Depends(_check_user)):
     obj = Case(
         body=data.body,
         title=data.title,
-        category=data.category
+        category=data.category,
+        author_id = user
     )
     session.add(instance=obj)
     try:
@@ -75,9 +77,10 @@ async def cases_create(session: DBSession, data: CaseCreateForm):
 async def cases_create_comment(
     session: DBSession,
     data: CommentCreateForm,
+    user=Depends(_check_user),
     pk: int = Path(default=..., ge=1, title="Case ID", examples=[42]),
 ):
-    obj = Comment(text=data.text.upper(), case_id=pk, date_created=datetime.now())
+    obj = Comment(text=data.text, case_id=pk, date_created=datetime.now(), author_id=user)
     session.add(instance=obj)
     try:
         await session.commit()

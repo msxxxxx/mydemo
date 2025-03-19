@@ -16,6 +16,16 @@ from src.models import Base
 
 __all__ = ["Case", "Comment", "User"]
 
+class User(Base):
+    __table_args__ = (CheckConstraint("length(email) >= 5"),)
+    email = Column(VARCHAR(length=128), nullable=False, unique=True)
+    password = Column(CHAR(length=60), nullable=False)
+    cases = relationship("Case", back_populates="author")
+    comments = relationship("Comment", back_populates="author")
+
+    def __str__(self) -> str:
+        return self.email
+
 
 class Case(Base):
     __table_args__ = (CheckConstraint(sqltext="length(title) >= 2"),)
@@ -31,14 +41,11 @@ class Case(Base):
         nullable=False,
     )
     body = Column(String, nullable=False)
-    category = Column(String, nullable=False)
-    # priority = Column(String, nullable=False)
-    # label = Column(String, nullable=False)
-    # reported = Column(String, nullable=False)
-    # measures = Column(String, nullable=False)
-    # investigate = Column(String, nullable=False)
-    # recommendations = Column(String, nullable=False)
+    category = Column(String, nullable=True)
     comments = relationship(argument="Comment", back_populates="case")
+    author_id = Column(INT, ForeignKey(column=User.id), index=True)
+    #author_email = Column(VARCHAR, ForeignKey(column=User.email), index=True)
+    author = relationship(argument="User", back_populates="cases")
 
 
 class Comment(Base):
@@ -50,17 +57,16 @@ class Comment(Base):
     date_created = Column(
         TIMESTAMP(timezone=True), default=lambda: datetime.now(tz=UTC), nullable=False
     )
+    author_id = Column(INT, ForeignKey(column=User.id), index=True)
+    #author_email = Column(VARCHAR, ForeignKey(column=User.email), index=True)
     case_id = Column(INT, ForeignKey(column=Case.id), index=True)
+    author = relationship(argument="User", back_populates="comments")
     case = relationship(argument="Case", back_populates="comments")
+
 
     def __str__(self) -> str:
         return self.text
 
 
-class User(Base):
-    __table_args__ = (CheckConstraint("length(email) >= 5"),)
-    email = Column(VARCHAR(length=128), nullable=False, unique=True)
-    password = Column(CHAR(length=60), nullable=False)
 
-    def __str__(self) -> str:
-        return self.email
+

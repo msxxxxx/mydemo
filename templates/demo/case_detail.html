@@ -7,23 +7,29 @@ Case
 <style media="screen">
     table {
         width:100%;
-        background: #989898;
-        color: black;
+        background: none;
+<!--        background: #989898;-->
+        color: green;
         border-spacing: 1px;
+        border: 0;
     }
     td,th {
         width: 25;
         text-align: left;
-        background: #989898;
+<!--        background: #989898;-->
+        background: none;
+        border: 0;
+        color: green;
     }
 </style>
-<h1>Case Description</h1>
+<h1 align="center" style="color:white;"> Case Description</h1>
 <table>
     <tr>
-        <th>Description</th>
+        <th>Title</th>
         <th>Date Created</th>
-        <th>Body</th>
+        <th>Description</th>
         <th>Category</th>
+        <th>Author</th>
 <!--        <th>Reported</th>-->
 <!--        <th>Reactive Measures</th>-->
 <!--        <th>Investigate</th>-->
@@ -35,27 +41,31 @@ Case
         <td>{{ obj.date_created }}</td>
         <td>{{ obj.body }}</td>
         <td>{{ obj.category }}</td>
+        <td>{{ obj.author_id }}</td>
 <!--        <td>{{ obj.reported }}</td>-->
 <!--        <td>{{ obj.measures }}</td>-->
 <!--        <td>{{ obj.investigate }}</td>-->
 <!--        <td>{{ obj.recommendations }}</td>-->
     </tr>
 </table>
+<h1 align="center" style="color:white;">Comments</h1>
 <table>
     <tr>
         <th>Comment</th>
         <th>Date Created</th>
+        <th>Author</th>
     </tr>
 {% for comment in comments %}
     <tr>
         <td>{{ comment.text }}</td>
         <td>{{ comment.date_created }}</td>
+        <td>{{ comment.author_id }}</td>
     </tr>
 {% endfor %}
 </table>
-<h1>Add Comment</h1>
+<!--<h1 align="right">Add Comment</h1>-->
 <form id="CommentForm">
-   <input id="text" placeholder="type comment">
-   <button type="submit">SEND</button>
+   <input id="text" placeholder="Add Comment">
+   <button type="submit" style="background-color:blue; border-color:blue">Add</button>
 </form>
 {% endblock %}

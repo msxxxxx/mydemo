@@ -37,3 +37,5 @@ def get_list_page(request: Request, comments=Depends(comment_detail), cases=Depe
 @router.get('/create')
 def get_create_form(request: Request, user=Depends(_authenticate)):
     return templating.TemplateResponse('demo/form.html', {'request': request, "user": user})
+
+

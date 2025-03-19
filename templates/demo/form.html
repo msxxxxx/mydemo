@@ -4,13 +4,14 @@ Cases
 {% endblock %}
 
 {% block content %}
-<h1>Create Case</h1>
+<h1 align="center" style="color:white;">Create Case</h1>
 <form id="CaseForm">
-   <label>Type Form Text:</label><br>
-   <input id="title" placeholder="type title">
-   <input id="body" placeholder="type body">
-   <input id="category" placeholder="type category">
-   <button type="submit">SEND</button>
+<!--   <label>Type Form Text:</label><br>-->
+   <input id="title" placeholder="Title">
+   <input id="body" placeholder="Description">
+   <input id="category" placeholder="Category">
+<!--   <input id="user" placeholder={{ user }}>-->
+   <button type="submit" style="background-color:blue; border-color:blue">Add</button>
 </form>
 {% endblock %}
 

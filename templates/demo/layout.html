@@ -1,6 +1,14 @@
 {% extends 'demo/base.html' %}
 
 {% block body %}
+<style>
+body {
+  background-image: url({{ url_for('static', path='/demo/assets/img/home-bg.jpg') }});
+<!--  background-repeat: no-repeat;-->
+<!--  background-attachment: fixed;-->
+<!--  background-size: cover;-->
+}
+</style>
 <!-- Navigation-->
 {% include 'demo/components/navigation.html' %}
 <!-- Page Header-->
