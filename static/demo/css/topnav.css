@@ -1,0 +1,7 @@
+#mainNav{
+    background-color: RoyalBlue;
+}
+
+.nav-link:hover{
+  text-shadow: 2px 2px 30px #fff;
+}
