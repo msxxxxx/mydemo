@@ -46,26 +46,26 @@ async def index(request: Request, response: Response):
     return response
 
 
-# @app.get(path="/register")
-# async def index(request: Request):
-#     return templating.TemplateResponse(request=request, name="demo/sign-up.html")
+@app.get(path="/register")
+async def index(request: Request):
+    return templating.TemplateResponse(request=request, name="demo/sign-up.html")
 
 
-# @app.post(path="/signup", name="signup", status_code=status.HTTP_201_CREATED)
-# async def signup(session: DBSession, form: UserRegisterForm):
-#     password_hash = create_password_hash(password=form.password)
-#     user = User(
-#         **form.model_dump(exclude={"confirm_password"}) | {"password": password_hash}
-#     )
-#     session.add(instance=user)
-#     try:
-#         await session.commit()
-#     except IntegrityError:
-#         raise HTTPException(
-#             status_code=status.HTTP_400_BAD_REQUEST,
-#             detail=f"user with email {form.email} exist",
-#         )
-#     return "OK"
+@app.post(path="/signup", name="signup", status_code=status.HTTP_201_CREATED)
+async def signup(session: DBSession, form: UserRegisterForm):
+    password_hash = create_password_hash(password=form.password)
+    user = User(
+        **form.model_dump(exclude={"confirm_password"}) | {"password": password_hash}
+    )
+    session.add(instance=user)
+    try:
+        await session.commit()
+    except IntegrityError:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"user with email {form.email} exist",
+        )
+    return "OK"
 
 
 @app.post(

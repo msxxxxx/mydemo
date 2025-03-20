@@ -77,7 +77,7 @@ async def _check_user(session: DBSession, request: Request):
     user = await session.get(entity=User, ident=payload.get("sub"))
     if user is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
-    user = user.id
+    user = user.email
     # print(user_name)
     # request.session.update(user=user.id)
     request.state.user = payload

@@ -44,7 +44,8 @@ class CommentDetail(BaseModel):
         examples=["My first comment"],
     )
     case_id: PositiveInt = Field(default=..., title="Case ID", examples=[42])
-    author_id: PositiveInt = Field(default=..., title="ID", examples=[2])
+    # author_id: PositiveInt = Field(default=..., title="ID", examples=[2])
+    author_email: str=Field(default=..., min_length=1, title="Author email", examples=["Something happened"])
 
 
 class CaseCreateForm(BaseModel):
@@ -84,7 +85,9 @@ class CaseDetail(BaseModel):
         default=None, title="Cases Comments Details"
     )
     category: str = Field(default=..., min_length=1, title="Case", examples=["happened"])
-    author_id: PositiveInt = Field(default=..., title="Case ID", examples=[42])
+    # author_id: PositiveInt = Field(default=..., title="Case ID", examples=[42])
+    author_email: str=Field(default=..., min_length=1, title="Author email", examples=["Something happened"])
+
 
 
 class UserRegisterForm(BaseModel):

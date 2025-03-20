@@ -41,7 +41,8 @@ Case
         <td>{{ obj.date_created }}</td>
         <td>{{ obj.body }}</td>
         <td>{{ obj.category }}</td>
-        <td>{{ obj.author_id }}</td>
+        <td>{{ obj.author_email }}</td>
+<!--        <td>{{ obj.author_id }}</td>-->
 <!--        <td>{{ obj.reported }}</td>-->
 <!--        <td>{{ obj.measures }}</td>-->
 <!--        <td>{{ obj.investigate }}</td>-->
@@ -59,7 +60,8 @@ Case
     <tr>
         <td>{{ comment.text }}</td>
         <td>{{ comment.date_created }}</td>
-        <td>{{ comment.author_id }}</td>
+        <td>{{ comment.author_email }}</td>
+<!--        <td>{{ comment.author_id }}</td>-->
     </tr>
 {% endfor %}
 </table>

@@ -43,8 +43,8 @@ class Case(Base):
     body = Column(String, nullable=False)
     category = Column(String, nullable=True)
     comments = relationship(argument="Comment", back_populates="case")
-    author_id = Column(INT, ForeignKey(column=User.id), index=True)
-    #author_email = Column(VARCHAR, ForeignKey(column=User.email), index=True)
+    # author_id = Column(INT, ForeignKey(column=User.id), index=True)
+    author_email = Column(VARCHAR, ForeignKey(column=User.email), index=True)
     author = relationship(argument="User", back_populates="cases")
 
 
@@ -57,8 +57,8 @@ class Comment(Base):
     date_created = Column(
         TIMESTAMP(timezone=True), default=lambda: datetime.now(tz=UTC), nullable=False
     )
-    author_id = Column(INT, ForeignKey(column=User.id), index=True)
-    #author_email = Column(VARCHAR, ForeignKey(column=User.email), index=True)
+    # author_id = Column(INT, ForeignKey(column=User.id), index=True)
+    author_email = Column(VARCHAR, ForeignKey(column=User.email), index=True)
     case_id = Column(INT, ForeignKey(column=Case.id), index=True)
     author = relationship(argument="User", back_populates="comments")
     case = relationship(argument="Case", back_populates="comments")

@@ -47,6 +47,20 @@ async def case_detail(session: DBSession, pk: int = Path(default=..., ge=1)):
         )
     return CaseDetail.model_validate(obj=obj, from_attributes=True)
 
+@router.get(path="/cases/profile/user", response_model=list[CaseDetail], name="demo_case_detail_user")
+async def case_detail_user(session: DBSession, user=Depends(_check_user) ):
+    objs = await session.scalars(
+        select(Case).options(joinedload(Case.comments)).filter(Case.author_email == user)
+    )
+    if objs is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail=f"Case {user} not found"
+        )
+    return [
+        CaseDetail.model_validate(obj=obj, from_attributes=True)
+        for obj in objs.unique().all()
+    ]
+
 
 @router.post(path="/cases", response_model=CaseDetail, name="Case_demo_create")
 async def cases_create(session: DBSession, data: CaseCreateForm, request: Request, user=Depends(_check_user)):
@@ -54,7 +68,7 @@ async def cases_create(session: DBSession, data: CaseCreateForm, request: Reques
         body=data.body,
         title=data.title,
         category=data.category,
-        author_id = user
+        author_email = user
     )
     session.add(instance=obj)
     try:
@@ -80,7 +94,7 @@ async def cases_create_comment(
     user=Depends(_check_user),
     pk: int = Path(default=..., ge=1, title="Case ID", examples=[42]),
 ):
-    obj = Comment(text=data.text, case_id=pk, date_created=datetime.now(), author_id=user)
+    obj = Comment(text=data.text, case_id=pk, date_created=datetime.now(), author_email=user)
     session.add(instance=obj)
     try:
         await session.commit()

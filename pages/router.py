@@ -2,7 +2,7 @@ from fastapi import APIRouter, Request, Depends, Form
 from sqlalchemy import select
 
 from demo.dependencies import check_session, authenticate, _authenticate
-from demo.handlers.v1.cases import cases_list, case_detail
+from demo.handlers.v1.cases import cases_list, case_detail, case_detail_user
 from demo.handlers.v1.comments import comment_detail
 from demo.models import User
 from demo.schemas import CaseDetail
@@ -38,4 +38,8 @@ def get_list_page(request: Request, comments=Depends(comment_detail), cases=Depe
 def get_create_form(request: Request, user=Depends(_authenticate)):
     return templating.TemplateResponse('demo/form.html', {'request': request, "user": user})
 
+
+@router.get('/profile')
+def get_profile(request: Request, user=Depends(_authenticate), cases=Depends(case_detail_user)):
+    return templating.TemplateResponse('demo/profile.html', {'request': request, "cases": cases, "user": user})
 

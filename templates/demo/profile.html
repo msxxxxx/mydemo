@@ -1,19 +1,16 @@
 {% extends 'demo/layout.html' %}
 {% block title %}
-Cases
+Case
 {% endblock %}
 
 {% block content %}
-<!--TEST COMMIT-->
-<!--TEST COMMIT-->
-<!--TEST COMMIT22-->
 <style media="screen">
     table {
         width:100%;
-<!--        background: #989898;-->
         background: none;
+<!--        background: #989898;-->
         color: white;
-<!--        border-spacing: 1px;-->
+        border-spacing: 1px;
         border: 0;
     }
     td,th {
@@ -21,14 +18,30 @@ Cases
         text-align: left;
 <!--        background: #989898;-->
         background: none;
+        border: 0;
+        color: white;
     }
 </style>
 <style>
 a {color: white;}
 </style>
+<h1 align="center" style="color:white;"> User Profile</h1>
 <table>
     <tr>
-        <th>ID</th>
+        <th>User</th>
+<!--        <th>Reported</th>-->
+<!--        <th>Reactive Measures</th>-->
+<!--        <th>Investigate</th>-->
+<!--        <th>Recommendations</th>-->
+    </tr>
+    <tr>
+        <td>{{ user }}</td>
+    </tr>
+</table>
+<h1 align="center" style="color:white;">My Cases</h1>
+<table>
+    <tr>
+<!--        <th>ID</th>-->
         <th>Description</th>
         <th>Date Created</th>
         <th>Category</th>
@@ -40,8 +53,8 @@ a {color: white;}
     </tr>
 {% for case in cases %}
     <tr>
-        <td><a href="/cases/list/{{ case.id }}">{{ case.id }}</a></td>
-        <td>{{ case.title }}</td>
+<!--        <td><a href="/cases/list/{{ case.id }}">{{ case.id }}</a></td>-->
+        <td><a href="/cases/list/{{ case.id }}">{{ case.title }}</a></td>
         <td>{{ case.date_created }}</td>
         <td>{{ case.category }}</td>
         <td>{{ case.author_email }}</td>
